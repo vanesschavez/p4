@@ -32,21 +32,38 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public void insert(IntervalADT<T> interval)
 					throws IllegalArgumentException {
-		
-		//if the tree is empty, insert the interval at the root
-		if (root == null) root.setInterval(interval);
-		//if this is a duplicate interval, throw an exception
-		else if (root.getInterval() == interval) throw new IllegalArgumentException();
-		//else, insert the node using the insertHelper() method
-		//(TODO! - Sid)
-		insertHelper(root, interval).setInterval(interval);
+		root = insert(root, interval);
 		
 	}
 	
-	public IntervalNode<T> insertHelper(IntervalNode<T> node, IntervalADT<T> interval){
-		//(TODO - Sid)
-		if (node == null) return node;
+	private IntervalNode<T> insert(IntervalNode<T> node, IntervalADT<T> interval)
+					throws IllegalArgumentException	{
+		//if node is null, we have an empty tree
+		if (node == null)
+			return new IntervalNode<T>(interval);
+		
+		//no duplicates allowed
+		if (node.getInterval().compareTo(interval) == 0)
+			throw new IllegalArgumentException();
+		
+		if (node.getInterval().compareTo(interval) < 0){
+			//add key to the left subtree
+			node.setLeftNode(insert(node.getLeftNode(),interval));
+			return node;
+		}
+		
+		else {
+			//add key to the right subtree
+			node.setRightNode(insert(node.getRightNode(),interval));
+			return node;
+		}
+		
 	}
+	
+//	public IntervalNode<T> insertHelper(IntervalNode<T> node, IntervalADT<T> interval){
+//		//(TODO - Sid)
+//		if (node == null) return node;
+//	}
 
 	@Override
 	public void delete(IntervalADT<T> interval)
