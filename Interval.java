@@ -6,7 +6,7 @@
 // TEAM:    Team 17
 // Authors:
 // Author1: (Vanessa Chavez, vchavez2@wisc.edu, chavez, 001)
-// Author2: ()
+// Author2: (Sidney Smith, sbsmith5@wisc.edu, sbsmith5, 001)
 // Author3: ()
 //
 //
@@ -18,7 +18,7 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 
 	private T start; //start of date interval
 	private T end; //end of date interval
-	private String label; //name of assignment
+	private String label; //name of project/schedule
 
 	/**
 	 * This method initializes the starting global variables.
@@ -46,7 +46,7 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 	}
 
 	/**
-	 * This method returns the name of the interval.
+	 * This method returns the project/schedule name of the interval.
 	 */
 	public String getLabel() {
 		return this.label;
@@ -61,10 +61,10 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 	 */
 	public boolean overlaps(IntervalADT<T> other) {
 		//FROM JAVADOCS, THIS IS WHAT METHOD IS SUPPOSED TO DO:
-//		Return true if this interval overlaps with the other interval.
-//		Note: two intervals [a, b], [c, d] will NOT overlap if either b < c or d < a.
-//
-//		In all other cases, they will overlap.
+		//Return true if this interval overlaps with the other interval.
+		//Note: two intervals [a, b], [c, d] will NOT overlap if either b < c or d < a.
+		//
+		//In all other cases, they will overlap.
 
 		//check if they don't overlap
 		if (this.getEnd().compareTo(other.getStart()) < 0 || this.getStart().compareTo(other.getEnd()) > 0) {

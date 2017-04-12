@@ -1,3 +1,15 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:         CS367 Spring 2016
+// PROJECT:          p4
+// FILE:             Interval.java
+//
+// TEAM:    Team 17
+// Authors:
+// Author1: (Sidney Smith, sbsmith5@wisc.edu, sbsmith5, 001)
+// Author2: ()
+//
+//
+//////////////////////////// 80 columns wide //////////////////////////////////
 /**
  * This class defines the IntervalNode for the IntervalTree. This node has three
  * components: 1) interval - the data that we want to store in this node 2)
@@ -31,7 +43,11 @@ public class IntervalNode<T extends Comparable<T>> {
 	 *            the interval data member.
 	 */
 	public IntervalNode(IntervalADT<T> interval) {
-		// TODO
+		// TODO - I THINK THIS IS DONE (Sid)
+		this.interval = interval;
+		//this.maxEnd = interval.getEnd();		not sure if we need to, or even if we can, construct these here
+		//this.leftNode = getLeftNode;
+		
 	}
 
 	/**
@@ -41,8 +57,10 @@ public class IntervalNode<T extends Comparable<T>> {
 	 * @return in-order successor node
 	 */
 	public IntervalNode<T> getSuccessor() {
-		return leftNode;
-		// TODO
+		// TODO - DONE (Sid)
+		if (this.leftNode == null)
+			return this.rightNode;
+		return this.leftNode;
 	}
 
 	/**
