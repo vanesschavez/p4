@@ -33,7 +33,6 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	public void insert(IntervalADT<T> interval)
 					throws IllegalArgumentException {
 		root = insert(root, interval);
-		
 	}
 	
 	private IntervalNode<T> insert(IntervalNode<T> node, IntervalADT<T> interval)
@@ -61,9 +60,6 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			node.setMaxEnd(recalculateMaxEnd(node));
 			return node;
 		}
-		
-		
-		
 	}
 
 	@Override
