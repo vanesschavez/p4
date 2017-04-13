@@ -49,15 +49,20 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (interval.compareTo(node.getInterval()) < 0){
 			//add key to the left subtree
 			node.setLeftNode(insert(node.getLeftNode(),interval));
+			//Check and possibly update maxEnd - Done (Sid) THIS MAY BE WRONG!
+			node.setMaxEnd(recalculateMaxEnd(node));
 			return node;
 		}
 		
 		else {
 			//add key to the right subtree
 			node.setRightNode(insert(node.getRightNode(),interval));
+			//Check and possibly update maxEnd - Done (Sid) THIS MAY BE WRONG!
+			node.setMaxEnd(recalculateMaxEnd(node));
 			return node;
 		}
-		//TODO - Check and possibly update maxEnd
+		
+		
 		
 	}
 
@@ -87,7 +92,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			else {
 				node.setInterval(node.getSuccessor().getInterval());
 				deleteHelper(node.getSuccessor(),interval);
-				//if right subtree is empty, current node's interval's max is the maxEnd
+				//if right subtree is empty, the end of the interval of the current node is the maxEnd
 				if (node.getRightNode() == null){
 					node.setMaxEnd(node.getInterval().getEnd());
 				}
@@ -100,16 +105,26 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		}
 		else if (interval.compareTo(node.getInterval()) < 0){
 			node.setLeftNode(deleteHelper(node.getLeftNode(),interval));
+			//update the maxEnd if necessary. This may be incorrect!!
+			node.setMaxEnd(recalculateMaxEnd(node));
 			return node;
 		}
 		else {
 			node.setRightNode(deleteHelper(node.getRightNode(),interval));
+			node.setMaxEnd(recalculateMaxEnd(node));
 	        return node;
 		}
 	}
 	
 	private T recalculateMaxEnd(IntervalNode<T> nodeToRecalculate){
-		
+		//if there is no right child, nodeToRecalculate's interval contains the maxEnd
+		if (nodeToRecalculate.getRightNode() == null){
+			return nodeToRecalculate.getInterval().getEnd();
+		}
+		//otherwise, the right subtree of nodeToRecalculate contains the maxEnd
+		else {
+			return nodeToRecalculate.getRightNode().getMaxEnd();
+		}
 	}
 
 	@Override
