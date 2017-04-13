@@ -43,10 +43,10 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			return new IntervalNode<T>(interval);
 		
 		//no duplicates allowed
-		if (node.getInterval().compareTo(interval) == 0)
+		if (interval.compareTo(node.getInterval()) == 0)
 			throw new IllegalArgumentException();
 		
-		if (node.getInterval().compareTo(interval) < 0){
+		if (interval.compareTo(node.getInterval()) < 0){
 			//add key to the left subtree
 			node.setLeftNode(insert(node.getLeftNode(),interval));
 			return node;
@@ -57,20 +57,15 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			node.setRightNode(insert(node.getRightNode(),interval));
 			return node;
 		}
+		//TODO - Check and possibly update maxEnd
 		
 	}
-	
-//	public IntervalNode<T> insertHelper(IntervalNode<T> node, IntervalADT<T> interval){
-//		//(TODO - Sid)
-//		if (node == null) return node;
-//	}
 
 	@Override
 	public void delete(IntervalADT<T> interval)
 					throws IntervalNotFoundException, IllegalArgumentException {
 		// TODO Auto-generated method stub
-		if (root == null) return;
-		
+		root = deleteHelper(root, interval);
 	}
 
 	@Override
@@ -78,6 +73,43 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 					IntervalADT<T> interval)
 					throws IntervalNotFoundException, IllegalArgumentException {
 		// TODO Auto-generated method stub
+		if (node == null){
+			throw new IntervalNotFoundException(interval.toString());
+		}
+		if (interval.equals(node.getInterval())){
+			//node is to be removed
+			//code to be added here - Sid
+			//two cases: (1)right child exists (2) right child does not exist
+			//see IntervalTreeADT method header for notes
+			if (node.getRightNode() == null){
+				return node.getLeftNode();
+			}
+			else {
+				node.setInterval(node.getSuccessor().getInterval());
+				deleteHelper(node.getSuccessor(),interval);
+				//if right subtree is empty, current node's interval's max is the maxEnd
+				if (node.getRightNode() == null){
+					node.setMaxEnd(node.getInterval().getEnd());
+				}
+				//otherwise, the right subtree contains the maxEnd
+				else{
+					node.setMaxEnd(node.getRightNode().getMaxEnd()); //may need null check in case right subtree is null
+				}
+				return node;
+			}
+		}
+		else if (interval.compareTo(node.getInterval()) < 0){
+			node.setLeftNode(deleteHelper(node.getLeftNode(),interval));
+			return node;
+		}
+		else {
+			node.setRightNode(deleteHelper(node.getRightNode(),interval));
+	        return node;
+		}
+	}
+	
+	private T recalculateMaxEnd(IntervalNode<T> nodeToRecalculate){
+		
 	}
 
 	@Override
