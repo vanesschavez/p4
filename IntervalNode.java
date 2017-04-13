@@ -48,8 +48,6 @@ public class IntervalNode<T extends Comparable<T>> {
 		this.maxEnd = interval.getEnd();
 		this.leftNode = null;
 		this.rightNode = null;
-		//this.leftNode = getLeftNode;
-		
 	}
 
 	/**

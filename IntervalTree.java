@@ -21,7 +21,9 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	/**
 	 * Constructor to create a new IntervalTree. Set the root of the tree to null, to create the tree.
 	 */
-	public IntervalTree() {root = null;}
+	public IntervalTree() {
+		root = null;
+	}
 
 	@Override
 	public IntervalNode<T> getRoot() {
