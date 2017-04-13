@@ -59,10 +59,23 @@ public class IntervalNode<T extends Comparable<T>> {
 	 * @return in-order successor node
 	 */
 	public IntervalNode<T> getSuccessor() {
-		// TODO - DONE (Sid)
-		if (this.leftNode == null)
-			return this.rightNode;
-		return this.leftNode;
+		// TODO - Done (Sid)
+		if (this.rightNode == null){
+			return null;
+		}
+		else {
+			return getSuccessorHelper(this.rightNode);
+		}
+	}
+	
+	//Sid added. Referenced https://piazza.com/class/ixvb3zbhyqd29e?cid=467 for help
+	private IntervalNode<T> getSuccessorHelper(IntervalNode<T> node) {
+		if (node.getLeftNode() == null){
+			return node;
+		}
+		else {
+			return getSuccessorHelper(node.getLeftNode());
+		}
 	}
 
 	/**
