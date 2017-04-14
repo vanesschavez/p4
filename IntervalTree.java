@@ -6,12 +6,13 @@
 // TEAM:    Team 17
 // Authors:
 // Author1: (Sidney Smith, sbsmith5@wisc.edu, sbsmith5, 001)
-// Author2: ()
+// Author2: (Aleysha Becker, ambecker5@wisc.edu, aleysha, 001)
 //
 //
 //////////////////////////// 80 columns wide //////////////////////////////////
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
@@ -126,24 +127,69 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	}
 
 	@Override
-	public List<IntervalADT<T>> findOverlapping(
-					IntervalADT<T> interval) {
-		// TODO Auto-generated method stub
+	public List<IntervalADT<T>> findOverlapping(IntervalADT<T> interval) {
+		// TODO Auto-generated method stub - Done? (Aleysha)
+		ArrayList<IntervalADT<T>> result = new ArrayList<IntervalADT<T>>();
+		findOverlappingHelper(root, interval, result);
+		return result;
 	}
 
+	private void findOverlappingHelper(IntervalNode<T> node, IntervalADT<T> interval, ArrayList<IntervalADT<T>> result) {
+		if (node == null) return;
+		// if (start1 < end2 and > start2) or (end1 > start2 and < end1) it overlaps
+		if ((node.getInterval().getStart().compareTo(interval.getEnd()) <= 1 
+				&& node.getInterval().getStart().compareTo(interval.getStart()) >= 1)
+				|| (node.getInterval().getEnd().compareTo(interval.getStart()) >= 1 
+						&& node.getInterval().getEnd().compareTo(interval.getEnd()) <= 1)){
+			result.add(node.getInterval());
+		}
+		if (node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 1) {
+			findOverlappingHelper(node.getLeftNode(), interval, result);
+		}
+		else if (node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 1) {
+			findOverlappingHelper(node.getLeftNode(), interval, result);
+		}
+	}
+	
 	@Override
 	public List<IntervalADT<T>> searchPoint(T point) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub - Done? (Aleysha)
+		ArrayList<IntervalADT<T>> result = new ArrayList<IntervalADT<T>>();
+		searchPointHelper(root, point, result);
+		return result;
 	}
 
+	private void searchPointHelper(IntervalNode<T> node, T point, ArrayList result) {
+		if (node == null) return;
+		// if (point >= start and <= end), it's in the interval
+		if (node.getInterval().getStart().compareTo(point) <= 1
+			&& node.getInterval().getEnd().compareTo(point) >= 1) {
+			result.add(node);	
+			}
+		if (node.getLeftNode().getMaxEnd().compareTo(point) >= 1) {
+			searchPointHelper(node.getLeftNode(), point, result);
+		}
+		else if (node.getRightNode().getMaxEnd().compareTo(point) >= 1) {
+			searchPointHelper(node.getRightNode(), point, result);
+		}
+	}
+	
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub - Done? (Aleysha)
+		return getSizeHelper(root);
 	}
 
+	private int getSizeHelper(IntervalNode<T> node) {
+		if (node == null) return 0;
+		// include current node, left subtree, and right subtree in the count
+		return 1 + getSizeHelper(node.getLeftNode()) + getSizeHelper(node.getRightNode());
+	}
+	
 	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
