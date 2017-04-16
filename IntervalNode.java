@@ -195,22 +195,17 @@ public class IntervalNode<T extends Comparable<T>> {
 			return true;
 		}
 		
-		//check if left node exists
-		if(this.leftNode != null){
-			//if it does we will only return true if it contains it
-			if(this.getLeftNode().contains(intervalToCheck)){
-				//we donot return false if false as we must still check the right node
-				return true;
+		if(intervalToCheck.compareTo(this.getInterval()) > 0){
+			if(this.rightNode != null){
+				return this.getRightNode().contains(intervalToCheck);
 			}
+			return false;
+		}else{
+			if(this.leftNode != null){
+				return this.getLeftNode().contains(intervalToCheck);
+			}
+			return false;
 		}
-		
-		//check if right node exists
-		if(this.rightNode != null){
-			//return if interval exists waithin right node
-			return this.getRightNode().contains(intervalToCheck);
-		}
-		
-		return false;
 	}
 	
 }
