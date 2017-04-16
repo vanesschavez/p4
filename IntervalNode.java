@@ -6,7 +6,7 @@
 // TEAM:    Team 17
 // Authors:
 // Author1: (Sidney Smith, sbsmith5@wisc.edu, sbsmith5, 001)
-// Author2: ()
+// Author2: (Roberto O'Dogherty, rodogherty@wisc.edu, o-dogherty, 001)
 //
 //
 //////////////////////////// 80 columns wide //////////////////////////////////
@@ -154,4 +154,63 @@ public class IntervalNode<T extends Comparable<T>> {
 	public void setRightNode(IntervalNode<T> rightNode) {
 		this.rightNode = rightNode;
 	}
+	
+	/*
+	 * TODO Roberto added this method because he thinks 
+	 * we need it to check height from IntervalTree class
+	 * returns height of tree
+	 */
+	public int getHeight(){
+		int toReturn = 1; //because this nodes height
+		int heightRight = 0;	//right height 
+		int heightLeft = 0;		//left height
+		
+		if( this.leftNode != null){
+			heightLeft += this.getLeftNode().getHeight();
+		}
+		
+		if( this.rightNode != null){
+			heightRight += this.getRightNode().getHeight();
+		}
+		
+		//check which height is larger and add that to out height of 1
+		if(heightRight > heightLeft){
+			toReturn += heightRight;
+		}else{
+			toReturn +=heightLeft;
+		}
+				
+		return toReturn;
+	}
+
+	/*
+	 * TODO Roberto added this method because he thinks 
+	 * we need it to check if it contains an interval from IntervalTree class
+	 * returns if tree contains interval
+	 * @param interval we're checking
+	 */
+	public boolean contains(IntervalADT<T> intervalToCheck) {
+		
+		if(this.getInterval() == intervalToCheck){
+			return true;
+		}
+		
+		//check if left node exists
+		if(this.leftNode != null){
+			//if it does we will only return true if it contains it
+			if(this.getLeftNode().contains(intervalToCheck)){
+				//we donot return false if false as we must still check the right node
+				return true;
+			}
+		}
+		
+		//check if right node exists
+		if(this.rightNode != null){
+			//return if interval exists waithin right node
+			return this.getRightNode().contains(intervalToCheck);
+		}
+		
+		return false;
+	}
+	
 }

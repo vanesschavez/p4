@@ -8,7 +8,7 @@
 // Author1: (Sidney Smith, sbsmith5@wisc.edu, sbsmith5, 001)
 // Author2: (Aleysha Becker, ambecker5@wisc.edu, aleysha, 001)
 // Author3: (Vanessa Chavez, vchavez2@wisc.edu, chavez, 001)
-//
+// Author3: (Roberto O'Dogherty, rodogherty@wisc.edu, o-dogherty, 001)
 //
 //////////////////////////// 80 columns wide //////////////////////////////////
 
@@ -38,6 +38,13 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		root = insert(root, interval);
 	}
 
+	/*
+	 * Inserts IntervalNode into the tree  
+	 * @throws IllegalArgumentException
+	 * @param intervalNode<T> node to add to tree
+	 * @param IntervalADT<T> interval of class
+	 * 
+	 */
 	private IntervalNode<T> insert(IntervalNode<T> node, IntervalADT<T> interval)
 					throws IllegalArgumentException	{
 		//if node is null, we have an empty tree
@@ -186,15 +193,30 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return 1 + getSizeHelper(node.getLeftNode()) + getSizeHelper(node.getRightNode());
 	}
 
+	//TODO only done if we can add methods to IntervalNode -Roberto
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
+		int toReturn = 0;
+		
+		if (root == null){
+			return toReturn;
+		}
+		
+		toReturn = root.getHeight();
+				
+		return toReturn;
 
 	}
 
+	//TODO only done if we can add methods to IntervalNode -Roberto
 	@Override
 	public boolean contains(IntervalADT<T> interval) {
-		return null;
+		
+		if(root == null){
+			return false;
+		}
+		
+		return root.contains(interval);
 	}
 
 	@Override
