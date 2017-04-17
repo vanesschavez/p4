@@ -117,4 +117,7 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
 		return 1; //this comes after other
 
 	}
+	public String toString() {
+		return label + " [" + start + ", " + end + "]";
+	}
 }
