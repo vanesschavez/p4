@@ -87,6 +87,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if (node == null){
 			throw new IntervalNotFoundException(interval.toString());
 		}
+
 		if (interval.equals(node.getInterval())){
 			//node is to be removed
 			//code to be added here - Sid
@@ -197,16 +198,28 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	//TODO only done if we can add methods to IntervalNode -Roberto
 	@Override
 	public int getHeight() {
-		int toReturn = 0;
+		return getHeightHelper(root, 0);
+	}
 
-		if (root == null){
-			return toReturn;
+	private int getHeightHelper(IntervalNode cur, int count) {
+		// edge case if root is null
+		if (cur == null) {
+			return count;
 		}
-
-		toReturn = root.getHeight();
-
-		return toReturn;
-
+		// check all nodes in tree
+		if (cur.getLeftNode() == null && cur.getRightNode() == null) {
+			// both nodes are null; return count
+			return ++count;
+		} else if (cur.getLeftNode() != null && cur.getRightNode() != null) {
+			// both nodes are not null; check each path
+			return Math.max(getHeightHelper(cur.getLeftNode(), ++count), getHeightHelper(cur.getRightNode(), ++count));
+		} else if (cur.getLeftNode() == null) {
+			// right node is not null
+			return getHeightHelper(cur.getRightNode(), ++count);
+		} else {
+			// left node is not null
+			return getHeightHelper(cur.getLeftNode(), ++count);
+		}
 	}
 
 	//TODO only done if we can add methods to IntervalNode -Roberto
